@@ -10,25 +10,23 @@ jobs:
     executor: python-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v2-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Set PYTHONPATH
           command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
       - run:
-          name: Install Dependencies and Run Unit Tests
+          name: Install Dependencies
           command: |
             python -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
-            pip install -r requirements.txt
-            pytest --maxfail=5 --disable-warnings
-      - save_cache:
-          paths:
-            - ~/.cache/pip
-            - venv
-          key: v2-dependencies-{{ checksum "requirements.txt" }}
+            # Если requirements.txt существует, установить зависимости
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - run:
+          name: Run Unit Tests
+          command: |
+            . venv/bin/activate
+            python -m unittest discover -s test -p "*.py"
+
 workflows:
   version: 2
   build_and_test:
