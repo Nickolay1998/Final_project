@@ -1,6 +1,7 @@
 import telebot
 from telebot import types
 from Translation import ru, eng, uk
+
 bot = telebot.TeleBot("7768845863:AAFbu0aDimoj0k6Zb1GLZYmOYT1p9GRdFAM")
 @bot.message_handler(commands=["start"])
 def Languages(message):
@@ -982,4 +983,5 @@ def results_table_Eng(message):
     bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH", parse_mode="html")
     bot.send_message(message.chat.id,f"Press /start for run",parse_mode="html")
 bot.infinity_polling()
+
 

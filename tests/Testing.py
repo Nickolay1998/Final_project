@@ -8,11 +8,12 @@ def Сalculations_summ_Ukr(light, water, trush):
 class TestCalculations(unittest.TestCase):
     def test_Calculations_light_Ukr(self):
         self.assertAlmostEqual(Сalculations_light_Ukr(12345, 12000, 3.90), 1345.5)
-    def test_Calculations_water_Rus(self):
+    def test_Calculations_water_Ukr(self):
         self.assertAlmostEqual(Сalculations_water_Ukr(350, 300, 2.50), 125.0)
-    def test_Calculations_summ_Rus(self):
+    def test_Calculations_summ_Ukr(self):
         self.assertAlmostEqual(Сalculations_summ_Ukr(1345.5, 125.0, 60),1530.5)
 
 if __name__ == "__main__":
     unittest.main()
+
 
