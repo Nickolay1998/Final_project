@@ -16,24 +16,15 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            if [ -f requirements.txt ]; then
-              python -m venv venv
-              . venv/bin/activate
-              pip install --upgrade pip
-              pip install -r requirements.txt
-            else
-              echo "No requirements.txt found, skipping dependency installation."
-            fi
+            python -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - run:
           name: Run Unit Tests
           command: |
             . venv/bin/activate
-            pytest --maxfail=3 --disable-warnings --cov=test
-      - run:
-          name: Check Coverage
-          command: |
-            . venv/bin/activate
-            coverage report -m
+            python -m unittest discover -s test -p "*.py"
 
 workflows:
   version: 2
