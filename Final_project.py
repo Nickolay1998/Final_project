@@ -1,8 +1,6 @@
 import telebot
 from telebot import types
-from Translation import ru
-from Translation import uk
-from Translation import eng
+from Translation import ru, eng, uk
 bot = telebot.TeleBot("7768845863:AAFbu0aDimoj0k6Zb1GLZYmOYT1p9GRdFAM")
 @bot.message_handler(commands=["start"])
 def Languages(message):
@@ -114,13 +112,13 @@ def Light_readings_for_this_month_Rus(message):
      try:
         global x
         x = int(message.text)
-        if len(str(x)) == 5:
+        if len(str(x)) == 5 and x>0:
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.old_light)
             bot.register_next_step_handler(message, Light_readings_for_the_past_month_Rus)
         else:
-            if len(str(x)) < 5 or len(str(x)) > 5:
+            if len(str(x)) < 5 or len(str(x)) > 5 or x<0:
                 bot.send_message(message.chat.id, ru.error_five_num)
             bot.register_next_step_handler(message, Light_readings_for_this_month_Rus)
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
@@ -143,13 +141,13 @@ def Light_readings_for_the_past_month_Rus(message):
     try:
         global y
         y = int(message.text)
-        if len(str(y)) == 5 and y < x or y==x:
+        if len(str(y)) == 5 and y < x and y>0  or y==x:
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.new_water)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Rus)
         else:
-            if len(str(y)) < 5 or len(str(y)) > 5:
+            if len(str(y)) < 5 or len(str(y)) > 5 or y<0:
                 bot.send_message(message.chat.id, ru.error_five_num)
             else:
                 bot.send_message(message.chat.id, ru.error_last_num)
@@ -174,13 +172,13 @@ def Water_readings_for_this_month_Rus(message):
     try:
         global p
         p = int(message.text)
-        if len(str(p)) == 3:
+        if len(str(p)) == 3 and p>0:
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.old_water)
             bot.register_next_step_handler(message, Water_readings_for_last_month_Rus)
         else:
-            if len(str(p)) < 3 or len(str(p)) > 3:
+            if len(str(p)) < 3 or len(str(p)) > 3 or p<0:
                 bot.send_message(message.chat.id, ru.error_three_num)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Rus)
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
@@ -203,13 +201,13 @@ def Water_readings_for_last_month_Rus(message):
     try:
         global k
         k = int(message.text)
-        if len(str(k)) == 3 and k < p or k==p:
+        if len(str(k)) == 3 and k>0 and k < p or k==p:
             bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.kl)
             bot.register_next_step_handler(message, Kilowatts_Rus)
         else:
-            if len(str(k)) < 3 or len(str(k)) > 3:
+            if len(str(k)) < 3 or len(str(k)) > 3 or k<0:
                 bot.send_message(message.chat.id, ru.error_three_num)
             else:
                 bot.send_message(message.chat.id, ru.error_last_num)
@@ -234,10 +232,17 @@ def Kilowatts_Rus(message):
     try:
         global n
         n = float(message.text)
-        bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
-        bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
-        bot.send_message(message.chat.id, ru.kb)
-        bot.register_next_step_handler(message, Cubometers_Rus)
+        if n>0:
+            bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.kb)
+            bot.register_next_step_handler(message, Cubometers_Rus)
+        else:
+            bot.send_message(message.chat.id, ru.negative)
+            bot.register_next_step_handler(message, Kilowatts_Rus)
+            bot.send_message(message.chat.id, ru.st, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.back, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.kl)
     except ValueError:
         bot.send_message(message.chat.id, ru.error_num)
         bot.register_next_step_handler(message, Kilowatts_Rus)
@@ -255,10 +260,17 @@ def Cubometers_Rus(message):
     try:
         global u
         u = float(message.text)
-        bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
-        bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
-        bot.send_message(message.chat.id, ru.tr)
-        bot.register_next_step_handler(message, Trush_Rus)
+        if u>0:
+            bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.tr)
+            bot.register_next_step_handler(message, Trush_Rus)
+        else:
+            bot.send_message(message.chat.id, ru.negative)
+            bot.register_next_step_handler(message, Cubometers_Rus)
+            bot.send_message(message.chat.id, ru.st, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.back, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.kb)
     except ValueError:
         bot.send_message(message.chat.id, ru.error_num)
         bot.register_next_step_handler(message, Cubometers_Rus)
@@ -276,9 +288,24 @@ def Trush_Rus(message):
     try:
         global trush
         trush = int(message.text)
-        bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
-        bot.send_message(message.chat.id,ru.report,reply_markup=button_Rus())
-        bot.register_next_step_handler(message, Order_Rus)
+        if trush>0:
+            bot.send_message(message.chat.id, f"{ru.new_light} {x} киловатт.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.old_light} {y} киловатт.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.new_water} {p} кубометров.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.old_water} {k} кубометров.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.kl} {n}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.kb} {u}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.tr} {trush} грн.", parse_mode="html")
+            bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id,ru.report,reply_markup=button_Rus())
+            bot.register_next_step_handler(message, Order_Rus)
+
+        else:
+            bot.send_message(message.chat.id, ru.negative)
+            bot.register_next_step_handler(message, Trush_Rus)
+            bot.send_message(message.chat.id, ru.st, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.back, reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id, ru.tr)
     except ValueError:
         bot.send_message(message.chat.id, ru.error)
         bot.register_next_step_handler(message, Trush_Rus)
@@ -309,14 +336,15 @@ def Сalculations_water_Rus(message):
 
 def Сalculations_summ_Rus(message):
     global summ
-    summ = light + water + trush
+    summ = round(light, 1) + round(water, 1) + round(trush, 1)
     results_table_Rus(message)
 
 def results_table_Rus(message):
-    bot.send_message(message.chat.id, f"Мусор: {trush} грн.", parse_mode="html")
-    bot.send_message(message.chat.id, f"Свет: {light} квт", parse_mode="html")
-    bot.send_message(message.chat.id, f"Вода: {water} кбм", parse_mode="html")
-    bot.send_message(message.chat.id, f"Сумма за коммунальные услуги: {round(summ, 1)} грн.", parse_mode="html")
+    bot.send_message(message.chat.id,f"Мусор: {round(trush, 1)} Грн.", parse_mode="html")
+    bot.send_message(message.chat.id, f"Свет: {round(light, 1)} Квт", parse_mode="html")
+    bot.send_message(message.chat.id, f"Вода: {round(water, 1)} m³", parse_mode="html")
+    bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} грн.",parse_mode="html")
+    bot.send_message(message.chat.id, "Нажмите /start для запуска.", parse_mode="html")
 
 ## Ukraine version
 
@@ -403,13 +431,13 @@ def Light_readings_for_this_month_Ukr(message):
      try:
         global x
         x = int(message.text)
-        if len(str(x)) == 5:
+        if len(str(x)) == 5 and x>0:
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.old_light)
             bot.register_next_step_handler(message, Light_readings_for_the_past_month_Ukr)
         else:
-            if len(str(x)) < 5 or len(str(x)) > 5:
+            if len(str(x)) < 5 or len(str(x)) > 5 or x<0:
                 bot.send_message(message.chat.id, uk.error_five_num)
             bot.register_next_step_handler(message, Light_readings_for_this_month_Ukr)
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
@@ -432,13 +460,13 @@ def Light_readings_for_the_past_month_Ukr(message):
     try:
         global y
         y = int(message.text)
-        if len(str(y)) == 5 and y < x or y==x:
+        if len(str(y)) == 5 and y < x or y==x and y>0:
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.new_water)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Ukr)
         else:
-            if len(str(y)) < 5 or len(str(y)) > 5:
+            if len(str(y)) < 5 or len(str(y)) > 5 or y<0:
                 bot.send_message(message.chat.id, uk.error_five_num)
             else:
                 bot.send_message(message.chat.id, uk.error_last_num)
@@ -463,13 +491,13 @@ def Water_readings_for_this_month_Ukr(message):
     try:
         global p
         p = int(message.text)
-        if len(str(p)) == 3:
+        if len(str(p)) == 3 and p>0:
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.old_water)
             bot.register_next_step_handler(message, Water_readings_for_last_month_Ukr)
         else:
-            if len(str(p)) < 3 or len(str(p)) > 3:
+            if len(str(p)) < 3 or len(str(p)) > 3 or p<0:
                 bot.send_message(message.chat.id, uk.error_three_num)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Ukr)
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
@@ -492,13 +520,13 @@ def Water_readings_for_last_month_Ukr(message):
     try:
         global k
         k = int(message.text)
-        if len(str(k)) == 3 and k < p or k==p:
+        if len(str(k)) == 3 and k>0 and k < p or k==p:
             bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.kl)
             bot.register_next_step_handler(message, Kilowatts_Ukr)
         else:
-            if len(str(k)) < 3 or len(str(k)) > 3:
+            if len(str(k)) < 3 or len(str(k)) > 3 or k<0:
                 bot.send_message(message.chat.id, uk.error_three_num)
             else:
                 bot.send_message(message.chat.id, uk.error_last_num)
@@ -523,10 +551,17 @@ def Kilowatts_Ukr(message):
     try:
         global n
         n = float(message.text)
-        bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
-        bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
-        bot.send_message(message.chat.id, uk.kb)
-        bot.register_next_step_handler(message, Cubometers_Ukr)
+        if n>0:
+            bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.kb)
+            bot.register_next_step_handler(message, Cubometers_Ukr)
+        else:
+            bot.send_message(message.chat.id, uk.negative)
+            bot.register_next_step_handler(message, Kilowatts_Ukr)
+            bot.send_message(message.chat.id, uk.st, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.back, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.kl)
     except ValueError:
         bot.send_message(message.chat.id, uk.error_num)
         bot.register_next_step_handler(message, Kilowatts_Ukr)
@@ -544,10 +579,18 @@ def Cubometers_Ukr(message):
     try:
         global u
         u = float(message.text)
-        bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
-        bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
-        bot.send_message(message.chat.id, uk.tr)
-        bot.register_next_step_handler(message, Trush_Ukr)
+        if u > 0:
+            bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.tr)
+            bot.register_next_step_handler(message, Trush_Ukr)
+        else:
+            bot.send_message(message.chat.id, uk.negative)
+            bot.register_next_step_handler(message, Cubometers_Ukr)
+            bot.send_message(message.chat.id, uk.st, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.back, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.kb)
+
     except ValueError:
         bot.send_message(message.chat.id, uk.error_num)
         bot.register_next_step_handler(message, Cubometers_Ukr)
@@ -565,9 +608,23 @@ def Trush_Ukr(message):
     try:
         global trush
         trush = int(message.text)
-        bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
-        bot.send_message(message.chat.id,uk.report,reply_markup=button_Ukr())
-        bot.register_next_step_handler(message,Order_Ukr)
+        if trush > 0:
+            bot.send_message(message.chat.id, f"{uk.new_light} {x} кіловат.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.old_light} {y} кіловат.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.new_water} {p} кубометрів.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.old_water} {k} кубометрів.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.kl} {n}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.kb} {u}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.tr} {trush} грн.", parse_mode="html")
+            bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id,uk.report,reply_markup=button_Ukr())
+            bot.register_next_step_handler(message,Order_Ukr)
+        else:
+            bot.send_message(message.chat.id, uk.negative)
+            bot.register_next_step_handler(message, Trush_Ukr)
+            bot.send_message(message.chat.id, uk.st, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.back, reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id, uk.tr)
     except ValueError:
         bot.send_message(message.chat.id, uk.error)
         bot.register_next_step_handler(message, Trush_Ukr)
@@ -598,15 +655,15 @@ def Сalculations_water_Ukr(message):
 
 def Сalculations_summ_Ukr(message):
     global summ
-    summ = light + water + trush
+    summ = round(light,1) + round(water,1) + round(trush,1)
     results_table_Ukr(message)
 
 def results_table_Ukr(message):
-    bot.send_message(message.chat.id, f"Сміття: {trush} грн.", parse_mode="html")
-    bot.send_message(message.chat.id, f"Світло: {light} квт", parse_mode="html")
-    bot.send_message(message.chat.id, f"Вода: {water} кбм", parse_mode="html")
-    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(summ, 1)} грн.", parse_mode="html")
-
+    bot.send_message(message.chat.id, f"Сміття: {round(trush,1)} Грн.", parse_mode="html")
+    bot.send_message(message.chat.id, f"Світло: {round(light,1)} Квт", parse_mode="html")
+    bot.send_message(message.chat.id, f"Вода: {round(water,1)} m³", parse_mode="html")
+    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} грн.", parse_mode="html")
+    bot.send_message(message.chat.id,f"Натисніть /start для запуску.", parse_mode="html")
 ##English version
 ##ButtomEng________________
 def keyboard_Eng():
@@ -692,13 +749,13 @@ def Light_readings_for_this_month_Eng(message):
      try:
         global x
         x = int(message.text)
-        if len(str(x)) == 5:
+        if len(str(x)) == 5 and x>0:
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.old_light)
             bot.register_next_step_handler(message, Light_readings_for_the_past_month_Eng)
         else:
-            if len(str(x)) < 5 or len(str(x)) > 5:
+            if len(str(x)) < 5 or len(str(x)) > 5 or x<5:
                 bot.send_message(message.chat.id, eng.error_five_num)
             bot.register_next_step_handler(message, Light_readings_for_this_month_Eng)
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
@@ -721,13 +778,13 @@ def Light_readings_for_the_past_month_Eng(message):
     try:
         global y
         y = int(message.text)
-        if len(str(y)) == 5 and y < x or y==x:
+        if len(str(y)) == 5 and y < x or y==x and y>0:
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.new_water)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Eng)
         else:
-            if len(str(y)) < 5 or len(str(y)) > 5:
+            if len(str(y)) < 5 or len(str(y)) > 5 or y<0:
                 bot.send_message(message.chat.id, eng.error_five_num)
             else:
                 bot.send_message(message.chat.id, eng.error_last_num)
@@ -752,13 +809,13 @@ def Water_readings_for_this_month_Eng(message):
     try:
         global p
         p = int(message.text)
-        if len(str(p)) == 3:
+        if len(str(p)) == 3 and p>0:
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.old_water)
             bot.register_next_step_handler(message, Water_readings_for_last_month_Eng)
         else:
-            if len(str(p)) < 3 or len(str(p)) > 3:
+            if len(str(p)) < 3 or len(str(p)) > 3 or p<0:
                 bot.send_message(message.chat.id, eng.error_three_num)
             bot.register_next_step_handler(message, Water_readings_for_this_month_Eng)
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
@@ -781,13 +838,13 @@ def Water_readings_for_last_month_Eng(message):
     try:
         global k
         k = int(message.text)
-        if len(str(k)) == 3 and k < p or k==p:
+        if len(str(k)) == 3 and k < p or k==p and k>0:
             bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.kl)
             bot.register_next_step_handler(message, Kilowatts_Eng)
         else:
-            if len(str(k)) < 3 or len(str(k)) > 3:
+            if len(str(k)) < 3 or len(str(k)) > 3 or k<0:
                 bot.send_message(message.chat.id, eng.error_three_num)
             else:
                 bot.send_message(message.chat.id, eng.error_last_num)
@@ -812,16 +869,23 @@ def Kilowatts_Eng(message):
     try:
         global n
         n = float(message.text)
-        bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.kb)
-        bot.register_next_step_handler(message, Cubometers_Eng)
+        if n>0:
+            bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.kb)
+            bot.register_next_step_handler(message, Cubometers_Eng)
+        else:
+            bot.send_message(message.chat.id, eng.negative)
+            bot.register_next_step_handler(message, Kilowatts_Eng)
+            bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.kl)
     except ValueError:
         bot.send_message(message.chat.id, eng.error_num)
         bot.register_next_step_handler(message, Kilowatts_Eng)
         bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
         bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.kl )
+        bot.send_message(message.chat.id, eng.kl)
 
 def Cubometers_Eng(message):
     if message.text == "Stop":
@@ -833,10 +897,17 @@ def Cubometers_Eng(message):
     try:
         global u
         u = float(message.text)
-        bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.tr)
-        bot.register_next_step_handler(message, Trush_Eng)
+        if u>0:
+            bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.tr)
+            bot.register_next_step_handler(message, Trush_Eng)
+        else:
+            bot.send_message(message.chat.id, eng.negative)
+            bot.register_next_step_handler(message,Cubometers_Eng)
+            bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.kb)
     except ValueError:
         bot.send_message(message.chat.id, eng.error_num)
         bot.register_next_step_handler(message, Cubometers_Eng)
@@ -854,9 +925,23 @@ def Trush_Eng(message):
     try:
         global trush
         trush = int(message.text)
-        bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
-        bot.send_message(message.chat.id, eng.report, reply_markup=button_Eng())
-        bot.register_next_step_handler(message, Order_Eng)
+        if trush>0:
+            bot.send_message(message.chat.id, f"{eng.new_light} {x} kilowatts.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.old_light} {y} kilowatts.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.new_water} {p} cubic meters.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.old_water} {k} cubic meters.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.kl} {n}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.kb} {u}.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.tr} {trush} UAH.", parse_mode="html")
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.report, reply_markup=button_Eng())
+            bot.register_next_step_handler(message, Order_Eng)
+        else:
+            bot.send_message(message.chat.id, eng.negative)
+            bot.register_next_step_handler(message, Trush_Eng)
+            bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id, eng.tr)
     except ValueError:
         bot.send_message(message.chat.id, eng.error)
         bot.register_next_step_handler(message, Trush_Eng)
@@ -887,13 +972,14 @@ def Сalculations_water_Eng(message):
 
 def Сalculations_summ_Eng(message):
     global summ
-    summ = light + water + trush
+    summ = round(light,1) + round(water,1) + round(trush,1)
     results_table_Eng(message)
 
 def results_table_Eng(message):
-    bot.send_message(message.chat.id, f"Trash: {trush} UAH", parse_mode="html")
-    bot.send_message(message.chat.id, f"Light: {light} kWh", parse_mode="html")
-    bot.send_message(message.chat.id, f"Water: {water} m³", parse_mode="html")
-    bot.send_message(message.chat.id, f"Total utility costs: {round(summ, 1)} UAH", parse_mode="html")
+    bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH", parse_mode="html")
+    bot.send_message(message.chat.id, f"Light: {round(light,1)} kWh", parse_mode="html")
+    bot.send_message(message.chat.id, f"Water: {round(water,1)} m³", parse_mode="html")
+    bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH", parse_mode="html")
+    bot.send_message(message.chat.id,f"Press /start for run",parse_mode="html")
 bot.infinity_polling()
 
