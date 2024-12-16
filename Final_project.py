@@ -4,15 +4,15 @@ from Translation import ru, eng, uk
 bot = telebot.TeleBot("7705597030:AAGr4RzRzkr9YVi6SxxE1gpQfsnwSmUN6bA")
 @bot.message_handler(commands=["start"])
 def Languages(message):
+    global markup
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     buttonru = types.KeyboardButton("Русский")
     buttonuk = types.KeyboardButton("Українська")
     buttoneng = types.KeyboardButton("English")
     buttonexit = types.KeyboardButton("Exit")
-    markup.add(buttonru, buttonuk, buttoneng, buttonexit) 
-    bot.send_message(message.chat.id, "Choose language", reply_markup=markup)
+    markup.add(buttonru, buttonuk, buttoneng, buttonexit)
+    bot.send_message(message.chat.id,"Choose language",reply_markup=markup)
     bot.register_next_step_handler(message, choose_language)
-
 def choose_language(message):
     if message.text == "Русский":
         Start_Rus(message)
@@ -21,10 +21,10 @@ def choose_language(message):
     elif message.text == "English":
         Start_Eng(message)
     elif message.text == "Exit":
-        Сancel(message)   
+        Сancel(message)
     else:
-        bot.send_message(message.chat.id, "Error")
-        bot.register_next_step_handler(message, choose_language)
+        bot.send_message(message.chat.id, "Error",reply_markup=markup)
+        bot.register_next_step_handler(message,choose_language)
 def Сancel(message):
     bot.send_message(message.chat.id, "The program has stopped press /start to run the program.")
     bot.clear_step_handler_by_chat_id(message.chat.id)
@@ -35,7 +35,6 @@ def Start_Rus(message):
     bot.send_message(message.chat.id, ru.back)
     bot.send_message(message.chat.id, ru.new_light)
     bot.register_next_step_handler(message, Light_readings_for_this_month_Rus)
-
 def Сancel_Rus(message):
     bot.send_message(message.chat.id, ru.stop)
     bot.clear_step_handler_by_chat_id(message.chat.id)
@@ -54,7 +53,7 @@ def button_Rus():
     back_b = types.KeyboardButton("Назад")
     markup.add(b_yes, b_no,back_b)
     return markup
-#BackfuncRus______________       
+#BackfuncRus______________
 def back_this_month_Rus(message):
     bot.clear_step_handler_by_chat_id(message.chat.id)
     Start_Rus(message)
@@ -120,17 +119,17 @@ def Light_readings_for_this_month_Rus(message):
         else:
             if len(str(x)) < 5 or len(str(x)) > 5 or x<0:
                 bot.send_message(message.chat.id,ru.error_five_num)
-                bot.register_next_step_handler(message, Light_readings_for_this_month_Rus)
-                bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
-                bot.send_message(message.chat.id,ru.back)
-                bot.send_message(message.chat.id,ru.new_light)
+            bot.register_next_step_handler(message, Light_readings_for_this_month_Rus)
+            bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id,ru.back)
+            bot.send_message(message.chat.id,ru.new_light)
      except ValueError:
         bot.send_message(message.chat.id,ru.error_num)
         bot.register_next_step_handler(message, Light_readings_for_this_month_Rus)
         bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
         bot.send_message(message.chat.id,ru.back)
         bot.send_message(message.chat.id,ru.new_light)
-                                  
+
 def Light_readings_for_the_past_month_Rus(message):
     if message.text == "Стоп":
         Сancel_Rus(message)
@@ -151,10 +150,10 @@ def Light_readings_for_the_past_month_Rus(message):
                 bot.send_message(message.chat.id,ru.error_five_num)
             else:
                 bot.send_message(message.chat.id,ru.error_last_num)
-                bot.register_next_step_handler(message, Light_readings_for_the_past_month_Rus)
-                bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
-                bot.send_message(message.chat.id,ru.back)
-                bot.send_message(message.chat.id,ru.old_light)
+            bot.register_next_step_handler(message, Light_readings_for_the_past_month_Rus)
+            bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id,ru.back)
+            bot.send_message(message.chat.id,ru.old_light)
     except ValueError:
         bot.send_message(message.chat.id,ru.error_num)
         bot.register_next_step_handler(message, Light_readings_for_the_past_month_Rus)
@@ -168,7 +167,7 @@ def Water_readings_for_this_month_Rus(message):
         return
     elif message.text == "Назад":
         back_past_month_Rus(message)
-        return    
+        return
     try:
         global p
         p = int(message.text)
@@ -180,7 +179,7 @@ def Water_readings_for_this_month_Rus(message):
         else:
             if len(str(p)) < 3 or len(str(p)) > 3 or p<0:
                 bot.send_message(message.chat.id,ru.error_three_num)
-                bot.register_next_step_handler(message, Water_readings_for_this_month_Rus)
+                bot.register_next_step_handler(message,Water_readings_for_this_month_Rus)
                 bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
                 bot.send_message(message.chat.id,ru.back)
                 bot.send_message(message.chat.id,ru.new_water)
@@ -197,7 +196,7 @@ def Water_readings_for_last_month_Rus(message):
         return
     elif message.text == "Назад":
         water_this_month_Rus(message)
-        return      
+        return
     try:
         global k
         k = int(message.text)
@@ -211,13 +210,13 @@ def Water_readings_for_last_month_Rus(message):
                 bot.send_message(message.chat.id,ru.error_three_num)
             else:
                 bot.send_message(message.chat.id,ru.error_last_num)
-                bot.register_next_step_handler(message, Water_readings_for_last_month_Rus)
-                bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
-                bot.send_message(message.chat.id,ru.back)
-                bot.send_message(message.chat.id,ru.old_water)
+            bot.register_next_step_handler(message,Water_readings_for_last_month_Rus)
+            bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
+            bot.send_message(message.chat.id,ru.back)
+            bot.send_message(message.chat.id,ru.old_water)
     except ValueError:
         bot.send_message(message.chat.id,ru.error_num)
-        bot.register_next_step_handler(message, Water_readings_for_last_month_Rus)
+        bot.register_next_step_handler(message,Water_readings_for_last_month_Rus)
         bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
         bot.send_message(message.chat.id,ru.back)
         bot.send_message(message.chat.id,ru.old_water)
@@ -228,24 +227,24 @@ def Kilowatts_Rus(message):
         return
     elif message.text == "Назад":
         water_last_month_Rus(message)
-        return   
+        return
     try:
         global n
         n = float(message.text)
-        if n>0:
+        if n > 0:
             bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id,ru.back)
             bot.send_message(message.chat.id,ru.kb)
-            bot.register_next_step_handler(message, Cubometers_Rus)
+            bot.register_next_step_handler(message,Cubometers_Rus)
         else:
             bot.send_message(message.chat.id,ru.negative)
-            bot.register_next_step_handler(message, Kilowatts_Rus)
-            bot.send_message(message.chat.id,ru.st, reply_markup=keyboard_Rus())
+            bot.register_next_step_handler(message,Kilowatts_Rus)
+            bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id,ru.back)
             bot.send_message(message.chat.id,ru.kl)
     except ValueError:
         bot.send_message(message.chat.id,ru.error)
-        bot.register_next_step_handler(message, Kilowatts_Rus)
+        bot.register_next_step_handler(message,Kilowatts_Rus)
         bot.send_message(message.chat.id,ru.st,reply_markup=keyboard_Rus())
         bot.send_message(message.chat.id,ru.back)
         bot.send_message(message.chat.id,ru.kl)
@@ -288,7 +287,7 @@ def Trush_Rus(message):
     try:
         global trush
         trush = int(message.text)
-        if trush>0:
+        if trush > 0:
             bot.send_message(message.chat.id, f"{ru.new_light} {x} киловатт.")
             bot.send_message(message.chat.id, f"{ru.old_light} {y} киловатт.")
             bot.send_message(message.chat.id, f"{ru.new_water} {p} кубометров.")
@@ -322,7 +321,10 @@ def Order_Rus(message):
     elif message.text == "Назад":
         trush_back_Rus(message)
         return
-        
+    else:
+        bot.send_message(message.chat.id,ru.ec,reply_markup=button_Rus())
+        bot.register_next_step_handler(message,Order_Rus)
+
 def Сalculations_light_Rus(message):
     global light
     light = (x - y) * n
@@ -346,7 +348,6 @@ def results_table_Rus(message):
     bot.send_message(message.chat.id, "Нажмите /start для запуска.")
 
 ## Ukraine version
-
 #ButtonUkr_________________
 def keyboard_Ukr():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -362,7 +363,7 @@ def button_Ukr():
     back_b = types.KeyboardButton("Назад")
     markup.add(b_yes, b_no,back_b)
     return markup
-#BackfunkUkr____________________     
+#BackfunkUkr____________________
 def back_this_month_Ukr(message):
     bot.clear_step_handler_by_chat_id(message.chat.id)
     Start_Ukr(message)
@@ -448,7 +449,7 @@ def Light_readings_for_this_month_Ukr(message):
         bot.send_message(message.chat.id,uk.st,reply_markup=keyboard_Ukr())
         bot.send_message(message.chat.id,uk.back)
         bot.send_message(message.chat.id,uk.new_light)
-                                  
+
 def Light_readings_for_the_past_month_Ukr(message):
     if message.text == "Стоп":
         Сancel_Ukr(message)
@@ -469,10 +470,10 @@ def Light_readings_for_the_past_month_Ukr(message):
                 bot.send_message(message.chat.id,uk.error_five_num)
             else:
                 bot.send_message(message.chat.id,uk.error_last_num)
-                bot.register_next_step_handler(message,Light_readings_for_the_past_month_Ukr)
-                bot.send_message(message.chat.id,uk.st,reply_markup=keyboard_Ukr())
-                bot.send_message(message.chat.id,uk.back)
-                bot.send_message(message.chat.id,uk.old_light)
+            bot.register_next_step_handler(message,Light_readings_for_the_past_month_Ukr)
+            bot.send_message(message.chat.id,uk.st,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id,uk.back)
+            bot.send_message(message.chat.id,uk.old_light)
     except ValueError:
         bot.send_message(message.chat.id,uk.error_num)
         bot.register_next_step_handler(message,Light_readings_for_the_past_month_Ukr)
@@ -486,7 +487,7 @@ def Water_readings_for_this_month_Ukr(message):
         return
     elif message.text == "Назад":
         back_past_month_Ukr(message)
-        return    
+        return
     try:
         global p
         p = int(message.text)
@@ -515,7 +516,7 @@ def Water_readings_for_last_month_Ukr(message):
         return
     elif message.text == "Назад":
         water_this_month_Ukr(message)
-        return      
+        return
     try:
         global k
         k = int(message.text)
@@ -529,10 +530,10 @@ def Water_readings_for_last_month_Ukr(message):
                 bot.send_message(message.chat.id,uk.error_three_num)
             else:
                 bot.send_message(message.chat.id,uk.error_last_num)
-                bot.register_next_step_handler(message,Water_readings_for_last_month_Ukr)
-                bot.send_message(message.chat.id,uk.st,reply_markup=keyboard_Ukr())
-                bot.send_message(message.chat.id,uk.back)
-                bot.send_message(message.chat.id,uk.old_water)
+            bot.register_next_step_handler(message,Water_readings_for_last_month_Ukr)
+            bot.send_message(message.chat.id,uk.st,reply_markup=keyboard_Ukr())
+            bot.send_message(message.chat.id,uk.back)
+            bot.send_message(message.chat.id,uk.old_water)
     except ValueError:
         bot.send_message(message.chat.id,uk.error_num)
         bot.register_next_step_handler(message,Water_readings_for_last_month_Ukr)
@@ -546,7 +547,7 @@ def Kilowatts_Ukr(message):
         return
     elif message.text == "Назад":
         water_last_month_Ukr(message)
-        return   
+        return
     try:
         global n
         n = float(message.text)
@@ -641,7 +642,10 @@ def Order_Ukr(message):
     elif message.text == "Назад":
         trush_back_Ukr(message)
         return
-        
+    else:
+        bot.send_message(message.chat.id,uk.ec,reply_markup=button_Ukr())
+        bot.register_next_step_handler(message,Order_Ukr)
+
 def Сalculations_light_Ukr(message):
     global light
     light = (x - y) * n
@@ -766,7 +770,7 @@ def Light_readings_for_this_month_Eng(message):
         bot.send_message(message.chat.id,eng.st,reply_markup=keyboard_Eng())
         bot.send_message(message.chat.id,eng.back)
         bot.send_message(message.chat.id,eng.new_light)
-                                  
+
 def Light_readings_for_the_past_month_Eng(message):
     if message.text == "Stop":
         Сancel_Eng(message)
@@ -787,10 +791,10 @@ def Light_readings_for_the_past_month_Eng(message):
                 bot.send_message(message.chat.id,eng.error_five_num)
             else:
                 bot.send_message(message.chat.id,eng.error_last_num)
-                bot.register_next_step_handler(message,Light_readings_for_the_past_month_Eng)
-                bot.send_message(message.chat.id,eng.st,reply_markup=keyboard_Eng())
-                bot.send_message(message.chat.id,eng.back)
-                bot.send_message(message.chat.id,eng.old_light)
+            bot.register_next_step_handler(message,Light_readings_for_the_past_month_Eng)
+            bot.send_message(message.chat.id,eng.st,reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id,eng.back)
+            bot.send_message(message.chat.id,eng.old_light)
     except ValueError:
         bot.send_message(message.chat.id,eng.error_num)
         bot.register_next_step_handler(message,Light_readings_for_the_past_month_Eng)
@@ -804,7 +808,7 @@ def Water_readings_for_this_month_Eng(message):
         return
     elif message.text == "Back":
         back_past_month_Eng(message)
-        return    
+        return
     try:
         global p
         p = int(message.text)
@@ -833,7 +837,7 @@ def Water_readings_for_last_month_Eng(message):
         return
     elif message.text == "Back":
         water_this_month_Eng(message)
-        return      
+        return
     try:
         global k
         k = int(message.text)
@@ -847,10 +851,10 @@ def Water_readings_for_last_month_Eng(message):
                 bot.send_message(message.chat.id,eng.error_three_num)
             else:
                 bot.send_message(message.chat.id,eng.error_last_num)
-                bot.register_next_step_handler(message,Water_readings_for_last_month_Eng)
-                bot.send_message(message.chat.id,eng.st,reply_markup=keyboard_Eng())
-                bot.send_message(message.chat.id,eng.back)
-                bot.send_message(message.chat.id,eng.old_water)
+            bot.register_next_step_handler(message,Water_readings_for_last_month_Eng)
+            bot.send_message(message.chat.id,eng.st,reply_markup=keyboard_Eng())
+            bot.send_message(message.chat.id,eng.back)
+            bot.send_message(message.chat.id,eng.old_water)
     except ValueError:
         bot.send_message(message.chat.id,eng.error_num)
         bot.register_next_step_handler(message,Water_readings_for_last_month_Eng)
@@ -864,7 +868,7 @@ def Kilowatts_Eng(message):
         return
     elif message.text == "Back":
         water_last_month_Eng(message)
-        return   
+        return
     try:
         global n
         n = float(message.text)
@@ -958,7 +962,10 @@ def Order_Eng(message):
     elif message.text == "Back":
         trush_back_Eng(message)
         return
-        
+    else:
+        bot.send_message(message.chat.id,eng.ec,reply_markup=button_Eng())
+        bot.register_next_step_handler(message,Order_Eng)
+
 def Сalculations_light_Eng(message):
     global light
     light = (x - y) * n

@@ -15,4 +15,4 @@ st = "Press Stop to stop the program."
 back = "Press Back to return to the previous command."
 report = "Start the calculation? Press Yes or No."
 negative = "Error!The number must be positive"
-
+ec = "Error! Enter only Yes No or Back."
