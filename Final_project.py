@@ -342,8 +342,8 @@ def Сalculations_summ_Rus(message):
 
 def results_table_Rus(message):
     bot.send_message(message.chat.id,f"Мусор: {round(trush, 1)} Грн.")
-    bot.send_message(message.chat.id, f"Свет: {round(light, 1)} Квт")
-    bot.send_message(message.chat.id, f"Вода: {round(water, 1)} m³")
+    bot.send_message(message.chat.id, f"Свет:({x}-{y})*{n} = {round(light, 1)} Квт")
+    bot.send_message(message.chat.id, f"Вода:({p}-{k})*{u} = {round(water, 1)} m³")
     bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} грн.")
     bot.send_message(message.chat.id, "Нажмите /start для запуска.")
 
@@ -663,8 +663,8 @@ def Сalculations_summ_Ukr(message):
 
 def results_table_Ukr(message):
     bot.send_message(message.chat.id, f"Сміття: {round(trush,1)} Грн.")
-    bot.send_message(message.chat.id, f"Світло: {round(light,1)} Квт")
-    bot.send_message(message.chat.id, f"Вода: {round(water,1)} m³")
+    bot.send_message(message.chat.id, f"Світло:({x}-{y})*{n} = {round(light,1)} Квт")
+    bot.send_message(message.chat.id, f"Вода:({p}-{k})*{u} = {round(water,1)} m³")
     bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} грн.")
     bot.send_message(message.chat.id,f"Натисніть /start для запуску.")
 ##English version
@@ -983,8 +983,8 @@ def Сalculations_summ_Eng(message):
 
 def results_table_Eng(message):
     bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH")
-    bot.send_message(message.chat.id, f"Light: {round(light,1)} kWh")
-    bot.send_message(message.chat.id, f"Water: {round(water,1)} m³")
+    bot.send_message(message.chat.id, f"Light:({x}-{y})*{n} = {round(light,1)} kWh")
+    bot.send_message(message.chat.id, f"Water:({p}-{k})*{u} = {round(water,1)} m³")
     bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH")
     bot.send_message(message.chat.id,f"Press /start for run")
 bot.infinity_polling()
