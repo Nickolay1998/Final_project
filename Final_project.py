@@ -1,8 +1,7 @@
 import telebot
 from telebot import types
 from Translation import ru, eng, uk
-
-bot = telebot.TeleBot("7768845863:AAFbu0aDimoj0k6Zb1GLZYmOYT1p9GRdFAM")
+bot = telebot.TeleBot("7705597030:AAGr4RzRzkr9YVi6SxxE1gpQfsnwSmUN6bA")
 @bot.message_handler(commands=["start"])
 def Languages(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -245,7 +244,7 @@ def Kilowatts_Rus(message):
             bot.send_message(message.chat.id, ru.back, reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.kl)
     except ValueError:
-        bot.send_message(message.chat.id, ru.error_num)
+        bot.send_message(message.chat.id, ru.error)
         bot.register_next_step_handler(message, Kilowatts_Rus)
         bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
         bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
@@ -273,7 +272,7 @@ def Cubometers_Rus(message):
             bot.send_message(message.chat.id, ru.back, reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id, ru.kb)
     except ValueError:
-        bot.send_message(message.chat.id, ru.error_num)
+        bot.send_message(message.chat.id, ru.error)
         bot.register_next_step_handler(message, Cubometers_Rus)
         bot.send_message(message.chat.id, ru.st,reply_markup=keyboard_Rus())
         bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
@@ -290,13 +289,13 @@ def Trush_Rus(message):
         global trush
         trush = int(message.text)
         if trush>0:
-            bot.send_message(message.chat.id, f"{ru.new_light} {x} киловатт.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.old_light} {y} киловатт.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.new_water} {p} кубометров.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.old_water} {k} кубометров.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.kl} {n}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.kb} {u}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{ru.tr} {trush} грн.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{ru.new_light} {x} киловатт.")
+            bot.send_message(message.chat.id, f"{ru.old_light} {y} киловатт.")
+            bot.send_message(message.chat.id, f"{ru.new_water} {p} кубометров.")
+            bot.send_message(message.chat.id, f"{ru.old_water} {k} кубометров.")
+            bot.send_message(message.chat.id, f"{ru.kl} {n}.")
+            bot.send_message(message.chat.id, f"{ru.kb} {u}.")
+            bot.send_message(message.chat.id, f"{ru.tr} {trush} грн.")
             bot.send_message(message.chat.id, ru.back,reply_markup=keyboard_Rus())
             bot.send_message(message.chat.id,ru.report,reply_markup=button_Rus())
             bot.register_next_step_handler(message, Order_Rus)
@@ -341,11 +340,11 @@ def Сalculations_summ_Rus(message):
     results_table_Rus(message)
 
 def results_table_Rus(message):
-    bot.send_message(message.chat.id,f"Мусор: {round(trush, 1)} Грн.", parse_mode="html")
-    bot.send_message(message.chat.id, f"Свет: {round(light, 1)} Квт", parse_mode="html")
-    bot.send_message(message.chat.id, f"Вода: {round(water, 1)} m³", parse_mode="html")
-    bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} грн.",parse_mode="html")
-    bot.send_message(message.chat.id, "Нажмите /start для запуска.", parse_mode="html")
+    bot.send_message(message.chat.id,f"Мусор: {round(trush, 1)} Грн.")
+    bot.send_message(message.chat.id, f"Свет: {round(light, 1)} Квт")
+    bot.send_message(message.chat.id, f"Вода: {round(water, 1)} m³")
+    bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} грн.")
+    bot.send_message(message.chat.id, "Нажмите /start для запуска.")
 
 ## Ukraine version
 
@@ -564,7 +563,7 @@ def Kilowatts_Ukr(message):
             bot.send_message(message.chat.id, uk.back, reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id, uk.kl)
     except ValueError:
-        bot.send_message(message.chat.id, uk.error_num)
+        bot.send_message(message.chat.id, uk.error)
         bot.register_next_step_handler(message, Kilowatts_Ukr)
         bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
         bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
@@ -593,7 +592,7 @@ def Cubometers_Ukr(message):
             bot.send_message(message.chat.id, uk.kb)
 
     except ValueError:
-        bot.send_message(message.chat.id, uk.error_num)
+        bot.send_message(message.chat.id, uk.error)
         bot.register_next_step_handler(message, Cubometers_Ukr)
         bot.send_message(message.chat.id, uk.st,reply_markup=keyboard_Ukr())
         bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
@@ -610,13 +609,13 @@ def Trush_Ukr(message):
         global trush
         trush = int(message.text)
         if trush > 0:
-            bot.send_message(message.chat.id, f"{uk.new_light} {x} кіловат.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.old_light} {y} кіловат.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.new_water} {p} кубометрів.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.old_water} {k} кубометрів.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.kl} {n}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.kb} {u}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{uk.tr} {trush} грн.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{uk.new_light} {x} кіловат.")
+            bot.send_message(message.chat.id, f"{uk.old_light} {y} кіловат.")
+            bot.send_message(message.chat.id, f"{uk.new_water} {p} кубометрів.")
+            bot.send_message(message.chat.id, f"{uk.old_water} {k} кубометрів.")
+            bot.send_message(message.chat.id, f"{uk.kl} {n}.")
+            bot.send_message(message.chat.id, f"{uk.kb} {u}.")
+            bot.send_message(message.chat.id, f"{uk.tr} {trush} грн.")
             bot.send_message(message.chat.id, uk.back,reply_markup=keyboard_Ukr())
             bot.send_message(message.chat.id,uk.report,reply_markup=button_Ukr())
             bot.register_next_step_handler(message,Order_Ukr)
@@ -660,11 +659,11 @@ def Сalculations_summ_Ukr(message):
     results_table_Ukr(message)
 
 def results_table_Ukr(message):
-    bot.send_message(message.chat.id, f"Сміття: {round(trush,1)} Грн.", parse_mode="html")
-    bot.send_message(message.chat.id, f"Світло: {round(light,1)} Квт", parse_mode="html")
-    bot.send_message(message.chat.id, f"Вода: {round(water,1)} m³", parse_mode="html")
-    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} грн.", parse_mode="html")
-    bot.send_message(message.chat.id,f"Натисніть /start для запуску.", parse_mode="html")
+    bot.send_message(message.chat.id, f"Сміття: {round(trush,1)} Грн.")
+    bot.send_message(message.chat.id, f"Світло: {round(light,1)} Квт")
+    bot.send_message(message.chat.id, f"Вода: {round(water,1)} m³")
+    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} грн.")
+    bot.send_message(message.chat.id,f"Натисніть /start для запуску.")
 ##English version
 ##ButtomEng________________
 def keyboard_Eng():
@@ -882,7 +881,7 @@ def Kilowatts_Eng(message):
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.kl)
     except ValueError:
-        bot.send_message(message.chat.id, eng.error_num)
+        bot.send_message(message.chat.id, eng.error)
         bot.register_next_step_handler(message, Kilowatts_Eng)
         bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
         bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
@@ -910,7 +909,7 @@ def Cubometers_Eng(message):
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.kb)
     except ValueError:
-        bot.send_message(message.chat.id, eng.error_num)
+        bot.send_message(message.chat.id, eng.error)
         bot.register_next_step_handler(message, Cubometers_Eng)
         bot.send_message(message.chat.id, eng.st, reply_markup=keyboard_Eng())
         bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
@@ -927,13 +926,13 @@ def Trush_Eng(message):
         global trush
         trush = int(message.text)
         if trush>0:
-            bot.send_message(message.chat.id, f"{eng.new_light} {x} kilowatts.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.old_light} {y} kilowatts.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.new_water} {p} cubic meters.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.old_water} {k} cubic meters.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.kl} {n}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.kb} {u}.", parse_mode="html")
-            bot.send_message(message.chat.id, f"{eng.tr} {trush} UAH.", parse_mode="html")
+            bot.send_message(message.chat.id, f"{eng.new_light} {x} kilowatts.")
+            bot.send_message(message.chat.id, f"{eng.old_light} {y} kilowatts.")
+            bot.send_message(message.chat.id, f"{eng.new_water} {p} cubic meters.")
+            bot.send_message(message.chat.id, f"{eng.old_water} {k} cubic meters.")
+            bot.send_message(message.chat.id, f"{eng.kl} {n}.")
+            bot.send_message(message.chat.id, f"{eng.kb} {u}.")
+            bot.send_message(message.chat.id, f"{eng.tr} {trush} UAH.")
             bot.send_message(message.chat.id, eng.back, reply_markup=keyboard_Eng())
             bot.send_message(message.chat.id, eng.report, reply_markup=button_Eng())
             bot.register_next_step_handler(message, Order_Eng)
@@ -977,11 +976,11 @@ def Сalculations_summ_Eng(message):
     results_table_Eng(message)
 
 def results_table_Eng(message):
-    bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH", parse_mode="html")
-    bot.send_message(message.chat.id, f"Light: {round(light,1)} kWh", parse_mode="html")
-    bot.send_message(message.chat.id, f"Water: {round(water,1)} m³", parse_mode="html")
-    bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH", parse_mode="html")
-    bot.send_message(message.chat.id,f"Press /start for run",parse_mode="html")
+    bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH")
+    bot.send_message(message.chat.id, f"Light: {round(light,1)} kWh")
+    bot.send_message(message.chat.id, f"Water: {round(water,1)} m³")
+    bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH")
+    bot.send_message(message.chat.id,f"Press /start for run")
 bot.infinity_polling()
 
 
