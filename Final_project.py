@@ -292,9 +292,9 @@ def Trush_Rus(message):
             bot.send_message(message.chat.id, f"{ru.old_light} {y} киловатт.")
             bot.send_message(message.chat.id, f"{ru.new_water} {p} кубометров.")
             bot.send_message(message.chat.id, f"{ru.old_water} {k} кубометров.")
-            bot.send_message(message.chat.id, f"{ru.kl} {n}.")
-            bot.send_message(message.chat.id, f"{ru.kb} {u}.")
-            bot.send_message(message.chat.id, f"{ru.tr} {trush} грн.")
+            bot.send_message(message.chat.id, f"{ru.kl} {n} Грн.")
+            bot.send_message(message.chat.id, f"{ru.kb} {u}. Грн.")
+            bot.send_message(message.chat.id, f"{ru.tr} {trush} Грн.")
             bot.send_message(message.chat.id, ru.back)
             bot.send_message(message.chat.id,ru.report,reply_markup=button_Rus())
             bot.register_next_step_handler(message, Order_Rus)
@@ -341,10 +341,12 @@ def Сalculations_summ_Rus(message):
     results_table_Rus(message)
 
 def results_table_Rus(message):
-    bot.send_message(message.chat.id,f"Мусор: {round(trush, 1)} Грн.")
-    bot.send_message(message.chat.id, f"Свет:({x}-{y})*{n} = {round(light, 1)} Квт")
-    bot.send_message(message.chat.id, f"Вода:({p}-{k})*{u} = {round(water, 1)} m³")
-    bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} грн.")
+    bot.send_message(message.chat.id, f"Свет: {x}-{y} = {x-y} Квт.")
+    bot.send_message(message.chat.id, f"Вода: {p}-{k} = {p-k} Кбм.")
+    bot.send_message(message.chat.id, f"Мусор: {round(trush, 1)} Грн.")
+    bot.send_message(message.chat.id, f"{x-y}*{n} = {round(light, 1)} Грн.")
+    bot.send_message(message.chat.id, f"{p-k}*{u} = {round(water, 1)} Грн.")
+    bot.send_message(message.chat.id,f"Сумма за коммунальные услуги: {round(light, 1)} + {round(water, 1)} + {round(trush, 1)} = {round(summ, 1)} Грн.")
     bot.send_message(message.chat.id, "Нажмите /start для запуска.")
 
 ## Ukraine version
@@ -613,9 +615,9 @@ def Trush_Ukr(message):
             bot.send_message(message.chat.id, f"{uk.old_light} {y} кіловат.")
             bot.send_message(message.chat.id, f"{uk.new_water} {p} кубометрів.")
             bot.send_message(message.chat.id, f"{uk.old_water} {k} кубометрів.")
-            bot.send_message(message.chat.id, f"{uk.kl} {n}.")
-            bot.send_message(message.chat.id, f"{uk.kb} {u}.")
-            bot.send_message(message.chat.id, f"{uk.tr} {trush} грн.")
+            bot.send_message(message.chat.id, f"{uk.kl} {n} Грн.")
+            bot.send_message(message.chat.id, f"{uk.kb} {u} Грн.")
+            bot.send_message(message.chat.id, f"{uk.tr} {trush} Грн.")
             bot.send_message(message.chat.id,uk.back)
             bot.send_message(message.chat.id,uk.report,reply_markup=button_Ukr())
             bot.register_next_step_handler(message,Order_Ukr)
@@ -662,10 +664,12 @@ def Сalculations_summ_Ukr(message):
     results_table_Ukr(message)
 
 def results_table_Ukr(message):
+    bot.send_message(message.chat.id, f"Світло: {x}-{y} = {x-y} Квт.")
+    bot.send_message(message.chat.id, f"Вода: {p}-{k} = {p-k} Кбм.")
     bot.send_message(message.chat.id, f"Сміття: {round(trush,1)} Грн.")
-    bot.send_message(message.chat.id, f"Світло:({x}-{y})*{n} = {round(light,1)} Квт")
-    bot.send_message(message.chat.id, f"Вода:({p}-{k})*{u} = {round(water,1)} m³")
-    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} грн.")
+    bot.send_message(message.chat.id, f"{x-y}*{n} = {round(light,1)} Грн.")
+    bot.send_message(message.chat.id, f"{p-k}*{u} = {round(water,1)} Грн.")
+    bot.send_message(message.chat.id, f"Сума за комунальні послуги: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} Грн.")
     bot.send_message(message.chat.id,f"Натисніть /start для запуску.")
 ##English version
 ##ButtomEng________________
@@ -933,8 +937,8 @@ def Trush_Eng(message):
             bot.send_message(message.chat.id, f"{eng.old_light} {y} kilowatts.")
             bot.send_message(message.chat.id, f"{eng.new_water} {p} cubic meters.")
             bot.send_message(message.chat.id, f"{eng.old_water} {k} cubic meters.")
-            bot.send_message(message.chat.id, f"{eng.kl} {n}.")
-            bot.send_message(message.chat.id, f"{eng.kb} {u}.")
+            bot.send_message(message.chat.id, f"{eng.kl} {n} UAH.")
+            bot.send_message(message.chat.id, f"{eng.kb} {u} UAH.")
             bot.send_message(message.chat.id, f"{eng.tr} {trush} UAH.")
             bot.send_message(message.chat.id, eng.back)
             bot.send_message(message.chat.id, eng.report, reply_markup=button_Eng())
@@ -982,10 +986,12 @@ def Сalculations_summ_Eng(message):
     results_table_Eng(message)
 
 def results_table_Eng(message):
-    bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH")
-    bot.send_message(message.chat.id, f"Light:({x}-{y})*{n} = {round(light,1)} kWh")
-    bot.send_message(message.chat.id, f"Water:({p}-{k})*{u} = {round(water,1)} m³")
-    bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH")
+    bot.send_message(message.chat.id, f"Light: {x}-{y} = {x-y} Kwh")
+    bot.send_message(message.chat.id, f"Water: {p}-{k} = {p-k} Kbm")
+    bot.send_message(message.chat.id, f"Trash: {round(trush,1)} UAH.")
+    bot.send_message(message.chat.id, f"{x-y}*{n} = {round(light,1)} UAH.")
+    bot.send_message(message.chat.id, f"{p-k}*{u} = {round(water,1)} UAH.")
+    bot.send_message(message.chat.id, f"Total utility costs: {round(light,1)} + {round(water,1)} + {round(trush,1)} = {round(summ, 1)} UAH.")
     bot.send_message(message.chat.id,f"Press /start for run")
 bot.infinity_polling()
 
